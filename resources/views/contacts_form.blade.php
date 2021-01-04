@@ -3,12 +3,11 @@
 @section('content')
     <form class="pure-form">
         <fieldset>
-            <legend>Contacts Form</legend>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <label for="default-remember">
-                <input type="checkbox" id="default-remember" /> Remember me</label>
-            <button type="submit" class="pure-button pure-button-primary">Sign in</button>
+            <legend>Contacts</legend>
+            <input type="first" placeholder="First Name" />
+            <input type="last" placeholder="Last Name" />
+            <input type="type" placeholder="Phone type" />
+            <input type="number" placeholder="Phone number" />
         </fieldset>
     </form>
 @endsection
