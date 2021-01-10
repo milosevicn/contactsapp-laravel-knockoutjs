@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class ContactsController extends Controller
 {
     public function getContacts() {
-        $users = User::with('phones')->get();
+        $users = User::where('role', 'contact')->with('phones')->get();
         return $users;
     }
 
@@ -46,11 +46,11 @@ class ContactsController extends Controller
         foreach($phones as $phone) {
             $error = $this->validateInput($phone, ['type' => 'required', 'phone' => 'required']);
             if($error) return;
+            $phone['phone'] = $this->formatPhone($phone['phone']);
             if(!empty($phone['_destroy'])) {
                 Phone::where('user_id', $user_id)->where('type', $phone['type'])->where('phone', $phone['phone'])->delete();   
                 continue;             
             }
-            $phone['phone'] = $this->formatPhone($phone['phone']);
             Phone::updateOrCreate(['user_id' => $user_id, 'type' => $phone['type']], ['phone' => $phone['phone']]);
         }
     }

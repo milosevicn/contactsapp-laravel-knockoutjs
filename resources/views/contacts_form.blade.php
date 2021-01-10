@@ -2,9 +2,16 @@
 
 @section('content')
     <h2>Contacts</h2>
-    <button class="btn btn-primary" data-bind="click: addContact">Add new contact</button>
+    @auth
+      <button class="btn btn-primary" data-bind="click: addContact">Add new contact</button>
+    @endauth
 
     <form>
+      @auth
+        <fieldset>
+      @else
+        <fieldset disabled="disabled">
+      @endif
         <div class="form-row">
           <div class="col-md-2">
             <label>First name</label>
@@ -21,7 +28,9 @@
             <input placeholder="First Name" type="text" class="form-control" data-bind="value: contact.first_name, valueUpdate: 'afterkeydown'"/>
             <span data-bind='visible: contact.first_name.hasError, text: "First Name is required"'> </span>
             <div>
+              @auth
                 <a href="#" data-bind="click: $root.removeContact">Remove contact</a>
+              @endauth
             </div>
           </div>
           <div class="col-md-2">
@@ -33,7 +42,9 @@
                 <div class="form-group col-md-6">
                     <input placeholder="Phone Type" type="text" class="form-control" data-bind="value: type" />
                     <div>
+                      @auth
                         <a href="#" data-bind="click: $parent.removePhone">Remove phone</a>
+                      @endauth
                     </div>
                 </div>
                 <div class="form-group col-md-6">
@@ -43,12 +54,17 @@
           </div>
           <div class="col-md-3">
             <div>
+              @auth
                 <a href="#" data-bind="click: $root.addPhone">Add phone</a>
+              @endauth
             </div>
           </div>
         </div>
         <div class="col-md-12">
+          @auth
             <button class="btn btn-block btn-primary" data-bind="click: $root.updateContacts">Update</button>
+          @endauth
         </div>
+      </fieldset>
     </form>
 @endsection

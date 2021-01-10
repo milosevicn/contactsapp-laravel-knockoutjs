@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactsController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => '/'], function() {
-    Route::get('/', function() { return view('contacts_form'); });
-    Route::get('get-contacts', [ContactsController::class, 'getContacts']);
+Route::get('/', function() { 
+    User::firstOrCreate(
+        ['email' => 'admin@contactsapp.com'],
+        ['first_name' => 'admin', 'last_name' => 'admin', 'role' => 'admin', 'password' => bcrypt('admin123')]
+    );
+    return view('contacts_form'); 
+});
+Route::get('get-contacts', [ContactsController::class, 'getContacts']);
+
+Route::group(['prefix' => '/', 'middleware' => ['isAdmin']], function() {
     Route::get('remove/{user_id}', [ContactsController::class, 'removeContact']);
     Route::post('update-contacts', [ContactsController::class, 'updateContacts']);
 });
+
+require __DIR__.'/auth.php';
