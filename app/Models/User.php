@@ -37,4 +37,12 @@ class User extends Authenticatable
      public function phones() {
          return $this->hasMany(Phone::class);
      }
+
+     public function getFirstNameAttribute($value) {
+         return ucfirst($value);
+     }
+
+     public function getLastNameAttribute($value) {
+        return ucfirst($value);
+    }
 }

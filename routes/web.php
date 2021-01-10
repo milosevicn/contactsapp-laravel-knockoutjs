@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ContactsController::class, 'index']);
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['prefix' => '/'], function() {
+    Route::get('/', function() { return view('contacts_form'); });
+    Route::get('get-contacts', [ContactsController::class, 'getContacts']);
+    Route::get('remove/{user_id}', [ContactsController::class, 'removeContact']);
+    Route::post('update-contacts', [ContactsController::class, 'updateContacts']);
+});
